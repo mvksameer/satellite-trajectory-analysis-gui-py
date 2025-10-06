@@ -122,14 +122,15 @@ N2YO.com
 Adjusting Orbital Parameters
 Use the interactive sliders to manually adjust Keplerian elements:
 
-| Parameter           | Range         | Description                                                            |                            |
-|---------------------|---------------|------------------------------------------------------------------------|----------------------------|
-| Semi-Major Axis     | 2000-50000 km | Controls orbit size                                                    |                            |
-| Eccentricity        | 0-0.99        | Controls orbit shape (0 = circular; approaching 1 = highly elliptical) |                            |
-| Inclination         | 0-180°        | Angle of orbit relative to equator                                     |                            |
-| RAAN                | 0-360°        | Right Ascension of Ascending Node                                      | Orientation of orbit plane |
-| Argument of Perigee | 0-360°        | Rotation of orbit within its plane                                     |                            |
-| Mean Anomaly        | 0-360°        | Satellite position along its orbit                                     |                            |
+| Parameter           | Range         | Description                                                            |   |
+|---------------------|---------------|------------------------------------------------------------------------|---|
+| Semi-Major Axis     | 2000-50000 km | Controls orbit size                                                    |   |
+| Eccentricity        | 0-0.99        | Controls orbit shape (0 = circular; approaching 1 = highly elliptical) |   |
+| Inclination         | 0-180°        | Angle of orbit relative to equator                                     |   |
+| RAAN                | 0-360°        | Right Ascension of Ascending Node Orientation of orbit plane           |   |
+| Argument of Perigee | 0-360°        | Rotation of orbit within its plane                                     |   |
+| Mean Anomaly        | 0-360°        | Satellite position along its orbit                                     |   |
+
 
 
 After adjusting parameters, click "Update Visualization" to recalculate and display the new orbit.
