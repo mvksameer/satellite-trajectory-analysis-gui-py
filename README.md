@@ -103,9 +103,9 @@ The application comes pre-loaded with TLE data for the International Space Stati
 
 1. Obtain TLE data from sources like:
 
-CelesTrak
-Space-Track.org
-N2YO.com
+- CelesTrak
+- Space-Track.org
+- N2YO.com
 
 
 2. Paste the two TLE lines into the input fields in the right panel
