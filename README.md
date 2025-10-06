@@ -132,53 +132,49 @@ Use the interactive sliders to manually adjust Keplerian elements:
 | Mean Anomaly        | 0-360°        | Satellite position along its orbit                                     |                      |   |
 
 
+After adjusting parameters, click "Update Visualisation" to recalculate and display the new orbit.
 
-After adjusting parameters, click "Update Visualization" to recalculate and display the new orbit.
-Understanding the Visualizations
-Altitude Graph:
+## Understanding the Visualisations
 
-X-axis: Time in hours (0-24 hour period)
-Y-axis: Altitude above Earth's surface in kilometers
-Shows how satellite altitude varies over one complete day
+### Altitude Graph:
 
-3D Orbit Plot:
+- X-axis: Time in hours (0-24 hour period)
+- Y-axis: Altitude above Earth's surface in kilometers
+- Shows how satellite altitude varies over one complete day
 
-Blue line: Complete orbital trajectory
-Green sphere: Earth center position
-Red marker: Periapsis (closest point to Earth)
-Interactive: Click and drag to rotate, scroll to zoom
+### 3D Orbit Plot:
 
-Exporting Data
+- Blue line: Complete orbital trajectory
+- Green sphere: Earth center position
+- Red marker: Periapsis (closest point to Earth)
+- Interactive: Click and drag to rotate, scroll to zoom
+
+### Exporting Data
 Click the "Download CSV" button to export the current altitude data as a CSV file. The file includes:
 
-Export timestamp
-Time values in hours
-Corresponding altitude values in kilometers
+- Export timestamp
+- Time values in hours
+- Corresponding altitude values in kilometers
 
 The CSV file can be opened in Excel, Google Sheets, or any data analysis software.
 Stopping the Application
+
 To stop the server:
 
-Press Ctrl+C in the terminal where the application is running
-Wait for the shutdown message to appear
+- Press Ctrl+C in the terminal where the application is running
+- Wait for the shutdown message to appear
 
 
-Technical Details
-Backend Calculations
+## Technical Details
+
+### Backend Calculations
+
 The application performs two main types of calculations:
 
-SGP4 Propagation: Uses TLE data to calculate precise satellite positions at 1-minute intervals over 24 hours
-Keplerian Orbit Generation: Computes 3D orbital paths from classical orbital elements using coordinate transformations
+1. SGP4 Propagation: Uses TLE data to calculate precise satellite positions at 1-minute intervals over 24 hours
 
-Default Values
+2. Keplerian Orbit Generation: Computes 3D orbital paths from classical orbital elements using coordinate transformations
+
+### Default Values
+
 When the application starts, it uses these default Keplerian elements:
-ElementDefault ValueSemi-Major Axis10000 kmEccentricity0.1Inclination90°RAAN40°Argument of Perigee1°Mean Anomaly1°
-Port Configuration
-The application automatically finds an available port between 5001 and 5099. If port 5001 is in use, it will try subsequent ports until it finds one that is free.
-Browser Compatibility
-The application works best on modern browsers:
-
-Chrome 90+
-Firefox 88+
-Safari 14+
-Edge 90+
