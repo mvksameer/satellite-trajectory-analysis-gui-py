@@ -24,9 +24,11 @@ The application leverages the SGP4 (Simplified General Perturbations) propagatio
 
 ## Application Screenshots
 
-### Main Interface
-![Main Dashboard](screenshots/dashboard.png)
-*The main interface showing altitude graph, 3D orbit visualisation, and control panel*
+### Control Panel 
+
+
+
+*TLE input section and Keplerian element sliders for real-time orbit manipulation*
 
 ### Altitude vs Time Graph
 ![Altitude Graph](screenshots/altitude-graph.png)
@@ -36,9 +38,6 @@ The application leverages the SGP4 (Simplified General Perturbations) propagatio
 ![3D Orbit](screenshots/3d-orbit.png)
 *Interactive 3D view showing satellite trajectory, Earth position, and periapsis marker*
 
-### Control Panel
-![Control Panel](screenshots/controls.png)
-*TLE input section and Keplerian element sliders for real-time orbit manipulation*
 
 ---
 
@@ -304,7 +303,7 @@ This application is ideal for:
 
 - Calculation Time: Typically 1-3 seconds for 24-hour propagation with 1-minute resolution
 - Memory Usage: Approximately 50-100 MB for typical operations
-- Browser Performance: 3D visualization performs best with hardware acceleration enabled
+- Browser Performance: 3D visualisation performs best with hardware acceleration enabled
 
 ## Data Sources
 
@@ -321,7 +320,7 @@ Recommended sources for TLE Data:
 
 Potential features for future versions:
 
-- Ground track visualization on 2D world map
+- Ground track visualisation on 2D world map
 - Real-time satellite position updates
 - Multiple satellite comparison
 - Orbital maneuver planning tools
@@ -400,4 +399,4 @@ Then:
 
 This application implements orbital mechanics algorithms based on decades of research in astrodynamics and space operations. Special recognition to the developers of the SGP4 library and the maintainers of public TLE data sources that make projects like this possible.
 
-### Made with Python, Flask, and a passion for Space Exploration
+### Made with Python, Flask, and a passion for Space Exploration.
