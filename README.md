@@ -26,16 +26,20 @@ The application leverages the SGP4 (Simplified General Perturbations) propagatio
 
 ### Control Panel 
 
-
+<img width="399" height="778" alt="Screenshot 2025-10-06 at 23 41 15" src="https://github.com/user-attachments/assets/92feab1c-d9eb-4b7e-a17e-b3bca0eba6ce" />
 
 *TLE input section and Keplerian element sliders for real-time orbit manipulation*
 
 ### Altitude vs Time Graph
-![Altitude Graph](screenshots/altitude-graph.png)
+
+<img width="924" height="436" alt="Screenshot 2025-10-06 at 23 46 40" src="https://github.com/user-attachments/assets/9fd81fab-c991-43ec-b632-74ae0e902d8d" />
+
 *24-hour altitude profile calculated using SGP4 propagation from TLE data*
 
 ### 3D Orbital Visualisation
-![3D Orbit](screenshots/3d-orbit.png)
+
+<img width="911" height="489" alt="Screenshot 2025-10-06 at 23 57 43" src="https://github.com/user-attachments/assets/6ab2804f-7c9d-4a7f-90b2-8f965196c68f" />
+
 *Interactive 3D view showing satellite trajectory, Earth position, and periapsis marker*
 
 
