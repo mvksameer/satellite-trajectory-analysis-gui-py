@@ -26,7 +26,7 @@ The application leverages the SGP4 (Simplified General Perturbations) propagatio
 
 ### Control Panel 
 
-<img width="399" height="778" alt="Screenshot 2025-10-06 at 23 41 15" src="https://github.com/user-attachments/assets/92feab1c-d9eb-4b7e-a17e-b3bca0eba6ce" />
+<img width="395" height="783" alt="Screenshot 2025-10-06 at 23 59 27" src="https://github.com/user-attachments/assets/51e34a56-03b8-4039-abf0-9e6f2a96f9eb" />
 
 *TLE input section and Keplerian element sliders for real-time orbit manipulation*
 
