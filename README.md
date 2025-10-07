@@ -66,9 +66,9 @@ pip install flask numpy sgp4
 
 This will install:
 
-Flask: Web framework for the application server
-NumPy: Numerical computing library for calculations
-sgp4: SGP4 satellite propagation library
+- Flask: Web framework for the application server
+- NumPy: Numerical computing library for calculations
+- sgp4: SGP4 satellite propagation library
 
 Step 3: Verify Installation
 You can verify the packages are installed correctly by running:
