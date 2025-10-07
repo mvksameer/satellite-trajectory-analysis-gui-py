@@ -440,7 +440,7 @@ HTML_TEMPLATE = """
             </div>
             
             <div class="plot-container">
-                <div class="plot-title">3D Orbital Visualization</div>
+                <div class="plot-title">3D Orbital Visualisation</div>
                 <div id="orbitPlot" style="width:100%; height:400px;"></div>
             </div>
 
@@ -499,7 +499,7 @@ HTML_TEMPLATE = """
             </div>
 
             <div style="text-align: center; margin-top: 20px;">
-                <button class="button" onclick="updateVisualization()">Update Visualization</button>
+                <button class="button" onclick="updateVisualisation()">Update Visualisation</button>
                 <button class="button download-button" onclick="downloadCSV()">Download CSV</button>
             </div>
         </div>
@@ -524,7 +524,7 @@ HTML_TEMPLATE = """
             document.getElementById('loading').classList.toggle('show', show);
         }
 
-        async function updateVisualization() {
+        async function updateVisualisation() {
             toggleLoading(true);
             
             try {
@@ -637,7 +637,7 @@ HTML_TEMPLATE = """
                 updateSliderValue(document.getElementById('argumentOfPerigee'), 'argumentOfPerigeeValue', '°');
                 updateSliderValue(document.getElementById('meanAnomaly'), 'meanAnomalyValue', '°');
 
-                updateVisualization();
+                updateVisualisation();
             } catch (error) {
                 showStatus('Error parsing TLE', 'error');
             }
@@ -665,7 +665,7 @@ HTML_TEMPLATE = """
         }
 
         window.addEventListener('load', () => {
-            updateVisualization();
+            updateVisualisation();
         });
     </script>
 </body>
