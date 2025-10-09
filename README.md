@@ -1,4 +1,4 @@
-# Satellite Tracker Analysis - Interactive Orbital Mechanics Visualisation
+# Satellite Trajectory Analysis - Interactive Orbital Mechanics Visualisation
 
 ## A Python Flask-based web application for real-time satellite orbital calculations and 3D trajectory visualisation using SGP4 propagation
 
