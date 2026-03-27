@@ -19,42 +19,40 @@ import csv
 app = Flask(__name__)
 
 # ============================================================
-# BACKEND PYTHON FUNCTIONS (From your original code)
+# bc
 # ============================================================
 
 def calculate_altitude_from_tle(tle_line_1, tle_line_2):
     """
     Calculate satellite altitude over time using SGP4 propagation
-    Based on the trace_altitude_graph function from original code
     """
     try:
-        # Parse TLE using sgp4 (fixed from original: Strec -> Satrec)
         satellite = Satrec.twoline2rv(tle_line_1, tle_line_2)
         
-        # Define time range (24 hours, 1 minute intervals)
         start_time = 0
         end_time = 24 * 3600  # 1 day in seconds
         step = 60  # 1 minute
-        
-        # Fixed from original: use arange, not linspace with step
         times = np.arange(start_time, end_time, step)
         
-        # Calculate altitude at each time step
         altitudes = []
         time_hours = []
         
+        # FIX 1: Pull the exact epoch directly from the TLE
+        jd = satellite.jdsatepoch
+        fr = satellite.jdsatepochF
+        
         for t in times:
-            jd, fr = jday(2024, 1, 1, 0, 0, t)
-            # Use SGP4 to get satellite position
-            error, r, v = satellite.sgp4(jd, fr)
+            # Convert the elapsed seconds 't' into days and add to the fractional Julian day
+            fr_t = fr + (t / 86400.0)
             
-            if error == 0:  # No error
-                # r is position vector [x, y, z] in km
-                # Calculate altitude above Earth's surface
+            # Use SGP4 relative to the exact TLE epoch
+            error, r, v = satellite.sgp4(jd, fr_t)
+            
+            if error == 0:  
                 distance = (r[0]**2 + r[1]**2 + r[2]**2)**0.5
-                altitude = distance - 6378.135  # Earth's radius in km
+                altitude = distance - 6378.135  # Earth's equatorial radius in km
                 altitudes.append(altitude)
-                time_hours.append(t / 3600)  # Convert to hours
+                time_hours.append(t / 3600)  
         
         return time_hours, altitudes
     
@@ -66,44 +64,35 @@ def calculate_altitude_from_tle(tle_line_1, tle_line_2):
 def calculate_3d_orbit_keplerian(a, e, i, Omega, w, M0, num_points=300):
     """
     Calculate 3D orbital positions using Keplerian elements
-    Based on visualise_3d_orbit from original code
-    Note: Original used PyAstronomy's KeplerEllipse, this uses direct calculation
     """
-    # Convert degrees to radians
     i_rad = np.radians(i)
     Omega_rad = np.radians(Omega)
     w_rad = np.radians(w)
     M0_rad = np.radians(M0)
     
-    # Calculate positions for one complete orbit
     positions_x = []
     positions_y = []
     positions_z = []
     
     for j in range(num_points):
-        # Mean anomaly at this point
         M = M0_rad + (j / num_points) * 2 * np.pi
         
-        # Solve Kepler's equation for eccentric anomaly
+        # FIX 2: Solve Kepler's equation using TRUE Newton-Raphson
         E = M
-        for _ in range(10):  # Newton-Raphson iteration
-            E = M + e * np.sin(E)
+        for _ in range(10):  
+            # Formula: E_{new} = E_{old} - f(E) / f'(E)
+            E = E - (E - e * np.sin(E) - M) / (1 - e * np.cos(E))
         
-        # Calculate true anomaly
         nu = 2 * np.arctan2(
             np.sqrt(1 + e) * np.sin(E / 2),
             np.sqrt(1 - e) * np.cos(E / 2)
         )
         
-        # Distance from focus
         r = a * (1 - e * np.cos(E))
         
-        # Position in orbital plane (perifocal coordinates)
         x_perifocal = r * np.cos(nu)
         y_perifocal = r * np.sin(nu)
         
-        # Rotation matrices to ECI coordinates
-        # R3(-Omega) * R1(-i) * R3(-w)
         cos_O = np.cos(Omega_rad)
         sin_O = np.sin(Omega_rad)
         cos_i = np.cos(i_rad)
@@ -111,7 +100,6 @@ def calculate_3d_orbit_keplerian(a, e, i, Omega, w, M0, num_points=300):
         cos_w = np.cos(w_rad)
         sin_w = np.sin(w_rad)
         
-        # Transform to ECI coordinates
         x = x_perifocal * (cos_O * cos_w - sin_O * sin_w * cos_i) - y_perifocal * (cos_O * sin_w + sin_O * cos_w * cos_i)
         y = x_perifocal * (sin_O * cos_w + cos_O * sin_w * cos_i) - y_perifocal * (sin_O * sin_w - cos_O * cos_w * cos_i)
         z = x_perifocal * (sin_w * sin_i) + y_perifocal * (cos_w * sin_i)
@@ -123,73 +111,8 @@ def calculate_3d_orbit_keplerian(a, e, i, Omega, w, M0, num_points=300):
     return positions_x, positions_y, positions_z
 
 
-def display_sliders_defaults():
-    """
-    From original code: Default Keplerian element values
-    Semi-Major Axis: 10000 km
-    Eccentricity: 0.1
-    Inclination: 90 degrees
-    RAAN: 40 degrees
-    Argument of Periapsis: 1 degree
-    Mean Anomaly: 1 degree
-    """
-    return {
-        'semi_major_axis': 10000,
-        'eccentricity': 0.1,
-        'inclination': 90,
-        'raan': 40,
-        'argument_of_perigee': 1,
-        'mean_anomaly': 1
-    }
-
-
 # ============================================================
-# FLASK ROUTES
-# ============================================================
-
-@app.route('/')
-def index():
-    """Main page route"""
-    return render_template_string(HTML_TEMPLATE)
-
-
-@app.route('/api/calculate', methods=['POST'])
-def calculate():
-    """API endpoint for orbital calculations"""
-    try:
-        data = request.json
-        tle_line_1 = data.get('tle1')
-        tle_line_2 = data.get('tle2')
-        
-        # Calculate altitude data
-        times, altitudes = calculate_altitude_from_tle(tle_line_1, tle_line_2)
-        
-        # Get Keplerian elements
-        a = float(data.get('semi_major_axis', 10000))
-        e = float(data.get('eccentricity', 0.1))
-        i = float(data.get('inclination', 90))
-        Omega = float(data.get('raan', 40))
-        w = float(data.get('argument_of_perigee', 1))
-        M0 = float(data.get('mean_anomaly', 1))
-        
-        # Calculate 3D orbit
-        pos_x, pos_y, pos_z = calculate_3d_orbit_keplerian(a, e, i, Omega, w, M0)
-        
-        return jsonify({
-            'success': True,
-            'altitude_times': times,
-            'altitude_values': altitudes,
-            'orbit_x': pos_x,
-            'orbit_y': pos_y,
-            'orbit_z': pos_z
-        })
-    
-    except Exception as e:
-        return jsonify({'success': False, 'error': str(e)}), 500
-
-
-# ============================================================
-# HTML TEMPLATE
+# HTML Template
 # ============================================================
 
 HTML_TEMPLATE = """
@@ -428,7 +351,7 @@ HTML_TEMPLATE = """
 </head>
 <body>
     <div class="header">
-        <h1>🛰️ Satellite Tracker Analysis</h1>
+        <h1> Satellite Tracker Analysis</h1>
         <p>Interactive Orbital Mechanics visualisation</p>
     </div>
 
@@ -673,32 +596,65 @@ HTML_TEMPLATE = """
 """
 
 # ============================================================
-# MAIN EXECUTION
+# port routes
+# ============================================================
+
+@app.route('/')
+def index():
+    """Main page route"""
+    return render_template_string(HTML_TEMPLATE)
+
+
+@app.route('/api/calculate', methods=['POST'])
+def calculate():
+    """API endpoint for orbital calculations"""
+    try:
+        data = request.json
+        tle_line_1 = data.get('tle1')
+        tle_line_2 = data.get('tle2')
+        
+        # Calculate altitude data using your fixed SGP4 math
+        times, altitudes = calculate_altitude_from_tle(tle_line_1, tle_line_2)
+        
+        # Get Keplerian elements from the sliders
+        a = float(data.get('semi_major_axis', 10000))
+        e = float(data.get('eccentricity', 0.1))
+        i = float(data.get('inclination', 90))
+        Omega = float(data.get('raan', 40))
+        w = float(data.get('argument_of_perigee', 1))
+        M0 = float(data.get('mean_anomaly', 1))
+        
+        # Calculate 3D orbit using your fixed Newton-Raphson math
+        pos_x, pos_y, pos_z = calculate_3d_orbit_keplerian(a, e, i, Omega, w, M0)
+        
+        return jsonify({
+            'success': True,
+            'altitude_times': times,
+            'altitude_values': altitudes,
+            'orbit_x': pos_x,
+            'orbit_y': pos_y,
+            'orbit_z': pos_z
+        })
+    
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+# ============================================================
+# server start
 # ============================================================
 
 if __name__ == '__main__':
-    import socket
-    
-    # Function to find an available port
-    def find_free_port():
-        for port in range(5001, 5100):
-            try:
-                sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                sock.bind(('', port))
-                sock.close()
-                return port
-            except OSError:
-                continue
-        return 5001
-    
-    port = find_free_port()
+    # Hardcoding a safe port to avoid conflicts
+    port = 5050
     
     print("\n" + "="*60)
     print("SATELLITE TRACKER ANALYSIS - Flask Server")
     print("="*60)
-    print(f"✓ Original Python code integrated (SGP4 calculations)")
-    print(f"✓ Server starting on: http://localhost:{port}")
-    print("✓ Press Ctrl+C to stop the server")
+    print("Server is successfully running")
+    print(f"CLICK HERE TO OPEN: http://127.0.0.1:{port}")
+    print("Press Ctrl+C in this terminal to stop the server")
     print("="*60 + "\n")
     
-    app.run(debug=True, host='0.0.0.0', port=port)
+    # host='127.0.0.1' and use_reloader=False prevent port blocking and firewalls
+    app.run(debug=True, host='127.0.0.1', port=port, use_reloader=False)
