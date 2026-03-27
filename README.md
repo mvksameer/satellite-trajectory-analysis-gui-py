@@ -26,19 +26,19 @@ The application leverages the SGP4 (Simplified General Perturbations) propagatio
 
 ### Control Panel 
 
-<img width="395" height="783" alt="Screenshot 2025-10-06 at 23 59 27" src="https://github.com/user-attachments/assets/51e34a56-03b8-4039-abf0-9e6f2a96f9eb" />
+<img width="385" height="804" alt="Screenshot 2026-03-27 225128" src="https://github.com/user-attachments/assets/ff9126ad-4c07-4709-afdd-4cf10ff30f7d" />
 
 *TLE input section and Keplerian element sliders for real-time orbit manipulation*
 
 ### Altitude vs Time Graph
 
-<img width="924" height="436" alt="Screenshot 2025-10-06 at 23 46 40" src="https://github.com/user-attachments/assets/9fd81fab-c991-43ec-b632-74ae0e902d8d" />
+<img width="795" height="447" alt="Screenshot 2026-03-27 225116" src="https://github.com/user-attachments/assets/5509443b-81f4-4e20-abb5-9bccfbc16f91" />
 
 *24-hour altitude profile calculated using SGP4 propagation from TLE data*
 
 ### 3D Orbital Visualisation
 
-<img width="911" height="489" alt="Screenshot 2025-10-06 at 23 57 43" src="https://github.com/user-attachments/assets/6ab2804f-7c9d-4a7f-90b2-8f965196c68f" />
+<img width="770" height="454" alt="Screenshot 2026-03-27 225142" src="https://github.com/user-attachments/assets/1fb69150-4a30-4025-99eb-84345f98cb59" />
 
 *Interactive 3D view showing satellite trajectory, Earth position, and periapsis marker*
 
