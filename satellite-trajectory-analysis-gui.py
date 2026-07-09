@@ -1,6 +1,5 @@
 # ============================================================
 # SATELLITE TRACKER ANALYSIS - FLASK APPLICATION
-# Includes original Python code functionality
 # ============================================================
 # Required installations:
 # pip install flask numpy sgp4
